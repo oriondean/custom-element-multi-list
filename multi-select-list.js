@@ -9,7 +9,8 @@ class MultiSelectList extends HTMLElement {
 
     init() {
         const allOption = this.createListOption('All');
-        allOption.addEventListener('click', () => this.handleAllOptionClick(!allOption.hasAttribute('selected')));
+        allOption.className = 'all-option';
+        allOption.addEventListener('change', () => this.handleAllOptionClick(allOption.selected));
 
         const list = document.createElement('div');
         list.className = 'list-options';
@@ -18,7 +19,11 @@ class MultiSelectList extends HTMLElement {
         list.style.overflowY = 'auto';
         list.style.paddingRight = '10px';
 
-        this.options.forEach((option) => list.appendChild(this.createListOption(option)));
+        this.options.forEach((option) => {
+            const listOption = this.createListOption(option);
+            listOption.addEventListener('change', () => this.handleOptionClick());
+            list.appendChild(listOption);
+        });
 
         this.appendChild(allOption);
         this.appendChild(list);
@@ -33,6 +38,11 @@ class MultiSelectList extends HTMLElement {
 
     handleAllOptionClick(isSelected) {
         this.querySelectorAll('.list-options > list-option').forEach((option) => option.selected = isSelected);
+    }
+
+    handleOptionClick() {
+        this.querySelector('.all-option').selected = Array.prototype.every.call(
+            this.querySelectorAll('.list-options > list-option'), (option) => option.selected);;
     }
 }
 
