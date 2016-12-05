@@ -12,14 +12,18 @@ class ListOption extends HTMLElement {
     }
 
     render() {
+        const container = document.createElement('div');
+        container.className = 'list-option';
+
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
 
         const label = document.createElement('span');
         label.textContent = this.label;
 
-        this.appendChild(checkbox);
-        this.appendChild(label);
+        container.appendChild(checkbox);
+        container.appendChild(label);
+        this.appendChild(container);
     }
 }
 
