@@ -50,6 +50,7 @@ class ListOption extends HTMLElement {
     init() {
         const container = document.createElement('div');
         container.className = 'list-option';
+        container.style.cursor = 'pointer';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
