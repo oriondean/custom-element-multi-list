@@ -12,7 +12,12 @@ class ListOption extends HTMLElement {
         this.init();
         this.render();
 
-        this.addEventListener('click', () => this.selected = !this.selected);
+        this.addEventListener('click', () => {
+            this.selected = !this.selected;
+            const event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, false);
+            this.dispatchEvent(event);
+        });
         this.connected = true;
     }
 
