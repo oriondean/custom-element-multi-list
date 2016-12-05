@@ -1,17 +1,48 @@
 class ListOption extends HTMLElement {
     constructor() {
         super();
+        this.connected = false;
+    }
+
+    static get observedAttributes() {
+        return ['selected'];
     }
 
     connectedCallback() {
+        this.init();
         this.render();
+
+        this.addEventListener('click', () => this.selected = !this.selected);
+        this.connected = true;
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click');
+    }
+
+    attributeChangedCallback() {
+        if (this.connected) {
+            this.render();
+        }
     }
 
     get label() {
         return this.getAttribute('label');
     }
 
-    render() {
+    get selected() {
+        return this.hasAttribute('selected');
+    }
+
+    set selected(isSelected) {
+        if (isSelected) {
+            this.setAttribute('selected', 'selected')
+        } else {
+            this.removeAttribute('selected')
+        }
+    }
+
+    init() {
         const container = document.createElement('div');
         container.className = 'list-option';
 
@@ -24,6 +55,10 @@ class ListOption extends HTMLElement {
         container.appendChild(checkbox);
         container.appendChild(label);
         this.appendChild(container);
+    }
+
+    render() {
+        this.querySelector('input').checked = this.selected;
     }
 }
 
